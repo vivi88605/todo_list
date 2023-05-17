@@ -1,6 +1,7 @@
 const express = require('express')//載入express
 const mongoose = require('mongoose')//載入mongoose
 const exphbs = require('express-handlebars')
+const Todo = require('./models/todo')//載入Todo Model
 if (process.env.NODE_ENV !== 'production') {//加入這段code 僅在非正式環境時使用dotenv
   require('dotenv').config()
 }
@@ -24,7 +25,10 @@ db.once('open', () => {
 
 //首頁路由
 app.get('/', (req, res) => {
-  res.render('index')
+  Todo.find()//載入Todo Model裡的整包資料
+    .lean()//把Mongoose裡的Model物件轉換成乾淨的Javascript資料陣列
+    .then(todos => res.render('index', { todos }))//{ todos } = { todos:todos } //將todos傳給index樣板
+    .catch(error => console.error(error))//錯誤處理
 })
 
 //設定port 3000
