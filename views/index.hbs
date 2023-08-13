@@ -7,7 +7,7 @@
     <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
     <a href="./todoList/{{this._id}}">detail</a>
     <a href="./todoList/{{this._id}}/edit">edit</a>
-    <form action="./todoList/{{this._id}}/delete" method="POST" style="display:inline">
+    <form action="./todoList/{{this._id}}?_method=DELETE" method="POST" style="display:inline">
       <button type="submit">delete</button>
     </form>
   </li>

@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const todoData = require('./models/todo')//載入Todo Model
 const bodyParser = require('body-parser')//載入body parser
 const app = express()
+const methodOverride = require('method-override')//載入method-override
 
 if (process.env.NODE_ENV !== 'production') {//加入這段code 僅在非正式環境時使用dotenv
   require('dotenv').config()
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useNewUrlPars
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))//設定每一筆請求都會透過 methodOverride 進行前置處理
 const db = mongoose.connection// 取得資料庫連線狀態
 db.on('error', () => {// 連線異常
   console.log('mongodb error!')
@@ -57,7 +59,7 @@ app.get('/todoList/:id/edit', (req, res) => {
     .then((todo) => res.render('edit', { todo }))
     .catch(error => console.log(error))
 })
-app.post('/todoList/:id/edit', (req, res) => {
+app.put('/todoList/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
   /* = 
@@ -80,7 +82,7 @@ app.post('/todoList/:id/edit', (req, res) => {
     .then(() => res.redirect(`/todoList/${id}`))
     .catch(error => console.log(error))
 })
-app.post('/todoList/:id/delete', (req, res) => {
+app.delete('/todoList/:id', (req, res) => {
   const id = req.params.id
   const name = req.body.name
   return todoData.findById(id)
