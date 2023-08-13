@@ -1,12 +1,12 @@
 {{!-- todos --}}
-<a href="./todos/new">Create page</a>
+<a href="./todoList/new">Create page</a>
 <ul>
   {{#each todos}}
   <li>
     {{this.name}}
-    <a href="./todos/{{this._id}}">detail</a>
-    <a href="./todos/{{this._id}}/edit">edit</a>
-    <form action="./todos/{{this._id}}/delete" method="POST" style="display:inline">
+    <a href="./todoList/{{this._id}}">detail</a>
+    <a href="./todoList/{{this._id}}/edit">edit</a>
+    <form action="./todoList/{{this._id}}/delete" method="POST" style="display:inline">
       <button type="submit">delete</button>
     </form>
   </li>

@@ -1,13 +1,13 @@
 const express = require('express')//載入express
 const mongoose = require('mongoose')//載入mongoose
 const exphbs = require('express-handlebars')
-const Todo = require('./models/todo')//載入Todo Model
+const todoData = require('./models/todo')//載入Todo Model
 const bodyParser = require('body-parser')//載入body parser
+const app = express()
 
 if (process.env.NODE_ENV !== 'production') {//加入這段code 僅在非正式環境時使用dotenv
   require('dotenv').config()
 }
-const app = express()
 
 //設定連線到MONGODB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,52 +25,52 @@ db.once('open', () => {// 連線成功
 
 //首頁路由
 app.get('/', (req, res) => {
-  Todo.find()//載入Todo Model裡的整包資料
+  todoData.find()//載入Todo Model裡的整包資料
     .lean()//把Mongoose裡的Model物件轉換成乾淨的Javascript資料陣列
     .then(todos => res.render('index', { todos }))//{ todos } = { todos:todos } //將todos傳給index樣板
     .catch(error => console.error(error))//錯誤處理
 })
 
-app.get('/todos/new', (req, res) => {
+app.get('/todoList/new', (req, res) => {
   res.render('new')
 })
 
-app.post('/todos', (req, res) => {
+app.post('/todoList', (req, res) => {
   const name = req.body.name
-  return Todo.create({ name })
+  return todoData.create({ name })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
-app.get('/todos/:id', (req, res) => {
+app.get('/todoList/:id', (req, res) => {
   const id = req.params.id
-  return Todo.findById(id)
+  return todoData.findById(id)
     .lean()
     .then((todo) => res.render('detail', { todo }))
     .catch(error => console.log(error))
 })
-app.get('/todos/:id/edit', (req, res) => {
+app.get('/todoList/:id/edit', (req, res) => {
   const id = req.params.id
-  return Todo.findById(id)
+  return todoData.findById(id)
     .lean()
     .then((todo) => res.render('edit', { todo }))
     .catch(error => console.log(error))
 })
-app.post('/todos/:id/edit', (req, res) => {
+app.post('/todoList/:id/edit', (req, res) => {
   const id = req.params.id
   const name = req.body.name
-  return Todo.findById(id)
+  return todoData.findById(id)
     .then(todo => {
       todo.name = name
       return todo.save()
     })
-    .then(() => res.redirect(`/todos/${id}`))
+    .then(() => res.redirect(`/todoList/${id}`))
     .catch(error => console.log(error))
 })
-app.post('/todos/:id/delete', (req, res) => {
+app.post('/todoList/:id/delete', (req, res) => {
   const id = req.params.id
   const name = req.body.name
-  return Todo.findById(id)
+  return todoData.findById(id)
     .then(todo => todo.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
