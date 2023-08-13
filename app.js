@@ -58,10 +58,22 @@ app.get('/todoList/:id/edit', (req, res) => {
 })
 app.post('/todoList/:id/edit', (req, res) => {
   const id = req.params.id
+  const { name, isDone } = req.body
+  /* = 
   const name = req.body.name
+  const isDone = req.body.isDone 
+  */
   return todoData.findById(id)
     .then(todo => {
       todo.name = name
+      todo.isDone = isDone === 'on'
+      /* =
+      if(isDone==='on'){
+        todo.isDone = true;
+      }else{
+        todo.isDone = false;
+      }
+      */
       return todo.save()
     })
     .then(() => res.redirect(`/todoList/${id}`))

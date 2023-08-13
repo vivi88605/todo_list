@@ -5,8 +5,9 @@ const todoSchema = new Schema({
     type: String,
     required: true,
   },
-  done: {
+  isDone: {
     type: Boolean,
+    default: false,
   }
 })
 module.exports = mongoose.model('todoData', todoSchema)
