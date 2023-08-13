@@ -3,7 +3,6 @@ const express = require('express')
 const router = express.Router()
 
 const todoData = require('../../models/todo')//引用Todo Model
-// const Todo = require('../../models/todo')
 
 //首頁路由
 router.get('/', (req, res) => {
