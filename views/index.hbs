@@ -1,15 +1,20 @@
 {{!-- todos --}}
-<a href="./todoList/new">Create page</a>
-<ul>
+<ul class="list-group">
   {{#each todos}}
-  <li>
-    {{this.name}}
-    <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
-    <a href="./todoList/{{this._id}}">detail</a>
-    <a href="./todoList/{{this._id}}/edit">edit</a>
-    <form action="./todoList/{{this._id}}?_method=DELETE" method="POST" style="display:inline">
-      <button type="submit">delete</button>
-    </form>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-auto me-auto">
+        <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
+        {{this.name}}
+      </div>
+      <div class="col-auto">
+        <a href="./todoList/{{this._id}}" class="btn btn-outline-primary">detail</a>
+        <a href="./todoList/{{this._id}}/edit" class="btn btn-outline-secondary">edit</a>
+        <form action="./todoList/{{this._id}}?_method=DELETE" method="POST" style="display:inline">
+          <button type="submit" class="btn btn-outline-danger">delete</button>
+        </form>
+      </div>
+    </div>
   </li>
   {{/each}}
 </ul>
