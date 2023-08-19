@@ -1,7 +1,11 @@
-<input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
-{{todo.name}}
-<a href="/todoList/{{todo._id}}/edit">edit</a>
-<a href="/">back</a>
 <form action="/todoList/{{todo._id}}?_method=DELETE" method="POST" style="display: inline">
-  <button type="submit">delete</button>
+  <div class="input-group mb-3">
+    <div class="input-group-text">
+      <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input" {{#if
+        todo.isDone }} checked {{/if}} disabled>
+    </div>
+    <input type="text" class="form-control" value="{{todo.name}}" aria-label="Text input with checkbox" disabled>
+    <a href="/todoList/{{todo._id}}/edit" class="btn btn-outline-secondary">edit</a>
+    <button type="submit" class="btn btn-outline-danger">delete</button>
+  </div>
 </form>
